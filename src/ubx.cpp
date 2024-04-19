@@ -142,7 +142,7 @@ void Ubx::ProcessNavData() {
   /* Fix */
   gnss_fix_ok_ = ubx_nav_pvt_.payload.flags & 0x01;
   diff_soln_ = ubx_nav_pvt_.payload.flags & 0x02;
-  carr_soln_ = ubx_nav_pvt_.payload.flags >> 6;
+  carr_soln_ = (ubx_nav_pvt_.payload.flags & 0xC0) >> 6;
   if (gnss_fix_ok_) {
     switch (ubx_nav_pvt_.payload.fix_type) {
       case 2: {
@@ -298,7 +298,10 @@ void Ubx::ProcessNavData() {
   }
   /* Relative position */
   if (rel_pos_data_) {
+    rel_pos_gnss_fix_ok_ = ubx_nav_pvt_.payload.flags & 0x01;
+    rel_pos_diff_soln_ = ubx_nav_pvt_.payload.flags & 0x02;
     rel_pos_avail_ = ubx_nav_rel_pos_ned_.payload.flags & 0x04;
+    rel_pos_carr_soln_ = (ubx_nav_rel_pos_ned_.payload.flags & 0x18) >> 3;
     rel_pos_moving_baseline_ = ubx_nav_rel_pos_ned_.payload.flags & 0x20;
     rel_pos_ref_pos_miss_ = ubx_nav_rel_pos_ned_.payload.flags & 0x40;
     rel_pos_ref_obs_miss_ = ubx_nav_rel_pos_ned_.payload.flags & 0x80;

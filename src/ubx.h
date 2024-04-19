@@ -56,6 +56,9 @@ class Ubx {
   /* Reads NAV data and returns true on EOE */
   bool Read();
   /* Data output */
+  inline bool gnss_fix_ok() const {return gnss_fix_ok_;}
+  inline bool diff_soln() const {return diff_soln_;}
+  inline int8_t carr_soln() const {return carr_soln_;}
   inline Fix fix() const {return fix_;}
   inline int8_t num_sv() const {return num_sv_;}
   inline int16_t utc_year() const {return year_;}
@@ -101,7 +104,10 @@ class Ubx {
   inline float ndop() const {return ndop_;}
   inline float edop() const {return edop_;}
   /* Relative position data */
+  inline bool rel_pos_gnss_fix_ok() const {return rel_pos_gnss_fix_ok_;}
+  inline bool rel_pos_diff_soln() const {return rel_pos_diff_soln_;}
   inline bool rel_pos_avail() const {return rel_pos_avail_;}
+  inline int8_t rel_pos_carr_soln() const {return rel_pos_carr_soln_;}
   inline bool rel_pos_moving_baseline() const {return rel_pos_moving_baseline_;}
   inline bool rel_pos_ref_pos_miss() const {return rel_pos_ref_pos_miss_;}
   inline bool rel_pos_ref_obs_miss() const {return rel_pos_ref_obs_miss_;}
@@ -174,7 +180,10 @@ class Ubx {
   bool tow_valid_, week_valid_, leap_valid_;
   bool confirmed_date_, confirmed_time_, valid_time_and_date_;
   bool invalid_llh_, invalid_ecef_;
+  bool rel_pos_gnss_fix_ok_ = false;
+  bool rel_pos_diff_soln_ = false;
   bool rel_pos_avail_ = false;
+  int8_t rel_pos_carr_soln_ = 0;
   bool rel_pos_moving_baseline_ = false;
   bool rel_pos_ref_pos_miss_ = false;
   bool rel_pos_ref_obs_miss_ = false;
